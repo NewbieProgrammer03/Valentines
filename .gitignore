@@ -1,4 +1,5 @@
 # Ignore all images
+images/
 
 # Ignore system files (macOS)
 .DS_Store
