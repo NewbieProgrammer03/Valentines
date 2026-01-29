@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Be My Valentine 💘</title>
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #e02525, #e93434);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Quicksand', sans-serif;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      z-index: 10;
+      max-width: 400px;
+    }
+
+    h1 {
+      color: #ff4d6d;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    img {
+      width: 250px;
+      border-radius: 15px;
+      margin: 15px 0;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin: 10px;
+      position: relative;
+      z-index: 20;
+      transition: all 0.2s ease;
+    }
+
+    #yesBtn {
+      background-color: #ff4d6d;
+      color: white;
+    }
+
+    #noBtn {
+      background-color: #ccc;
+      position: absolute;
+    }
+
+    .heart {
+      position: absolute;
+      color: #ff4d6d;
+      font-size: 24px;
+      opacity: 0.8;
+      animation: float 4s linear forwards;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-500px) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Will you be my Valentine?</h1>
+    <img src="mochahearts.gif" alt="Us">
+    <br>
+    <button id="yesBtn">Yes absolutely! </button>
+    <button id="noBtn">Eww no! </button>
+  </div>
+
+  <!-- Hidden YouTube player -->
+  <div id="yt-player" style="display:none;"></div>
+
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+
+    let heartsInterval;
+    let player;
+    let noPhrases = ["Are you sure?", "Misclick right?", "Hmm really?", "Try again"];
+    let noIndex = 0;
+
+    // "No" button behavior
+    noBtn.addEventListener("mouseover", () => {
+      // Change button text to next playful phrase
+      noBtn.innerText = noPhrases[noIndex % noPhrases.length];
+      noIndex++;
+
+      // Make Yes button slightly bigger
+      const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+      yesBtn.style.fontSize = (currentSize + 20) + "px";
+
+      // Move No button to a random spot
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 50);
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+    });
+
+    // YouTube API ready
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('yt-player', {
+        height: '0',
+        width: '0',
+        videoId: 'oVyki8SwYU0',
+        playerVars: { autoplay: 0, loop: 1, playlist: 'oVyki8SwYU0' }
+      });
+    }
+
+    // Yes button click
+    yesBtn.addEventListener("click", () => {
+      // Burst of hearts
+      for(let i = 0; i < 50; i++){
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💖";
+        heart.style.left = yesBtn.offsetLeft + yesBtn.offsetWidth/2 + (Math.random()*100-50) + "px";
+        heart.style.top = yesBtn.offsetTop + yesBtn.offsetHeight/2 + (Math.random()*100-50) + "px";
+        heart.style.fontSize = Math.random() * 30 + 20 + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => { heart.remove(); }, 4000);
+      }
+
+      // Start floating hearts
+      if (!heartsInterval) {
+        heartsInterval = setInterval(() => {
+          const heart = document.createElement("div");
+          heart.className = "heart";
+          heart.innerHTML = "❤️";
+          heart.style.left = Math.random() * window.innerWidth + "px";
+          heart.style.fontSize = Math.random() * 20 + 20 + "px";
+          document.body.appendChild(heart);
+          setTimeout(() => { heart.remove(); }, 4000);
+        }, 300);
+      }
+
+      // Play YouTube music
+      if (player) {
+        player.playVideo();
+      }
+
+      // Redirect to second page
+      setTimeout(() => {
+        window.location.href = "valentine.html";
+      }, 500);
+    });
+  </script>
+
+</body>
+</html>
