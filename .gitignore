@@ -1,0 +1,15 @@
+# Ignore all images
+images/
+
+# Ignore system files (macOS)
+.DS_Store
+
+# Ignore Node modules if you ever use JS frameworks
+node_modules/
+
+# Ignore log files
+*.log
+
+# Ignore temporary files
+*.tmp
+*.swp
